@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -8,7 +7,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login, googleLogin } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -19,17 +18,6 @@ const Login = () => {
     if (success) {
       navigate('/');
     }
-  };
-
-  const handleGoogleLogin = async () => {
-    // For demo purposes, create a mock Google login
-    const mockUser = {
-      name: 'Google User',
-      email: 'google@example.com',
-      photoURL: 'https://via.placeholder.com/150'
-    };
-    await googleLogin(mockUser);
-    navigate('/');
   };
 
   return (
@@ -63,14 +51,6 @@ const Login = () => {
             {loading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-        
-        <div className="auth-divider">
-          <span>or</span>
-        </div>
-        
-        <button onClick={handleGoogleLogin} className="google-btn">
-          Continue with Google
-        </button>
         
         <p className="auth-link">
           Don't have an account? <Link to="/register">Register</Link>

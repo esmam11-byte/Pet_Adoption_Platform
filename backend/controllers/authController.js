@@ -1,4 +1,3 @@
-
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
@@ -94,27 +93,3 @@ exports.getMe = async (req, res) => {
   }
 };
 
-exports.googleLogin = async (req, res) => {
-  try {
-    const { name, email, photoURL } = req.body;
-    
-    let user = await User.findOne({ email });
-    if (!user) {
-      user = new User({
-        name,
-        email,
-        password: Math.random().toString(36) + Date.now(),
-        photoURL: photoURL || 'https://via.placeholder.com/150'
-      });
-      await user.save();
-    }
-    
-    generateToken(user, res);
-    res.json({
-      message: 'Google login successful',
-      user: { id: user._id, name: user.name, email: user.email, photoURL: user.photoURL, role: user.role }
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
